@@ -1,1 +1,2 @@
-# tylermcginnis-react
+Tyler McGinnis Free React Tutorial
+
