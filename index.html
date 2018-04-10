@@ -14,11 +14,39 @@
 
   </div>
   <script>
+    const name = 'Nick'
+    const handle = '@nick_leake'
+
+    const nameElement = React.createElement(
+      'h2',
+      null,
+      name
+    )
+
+    const handleElement = React.createElement(
+      'h3',
+      null,
+      handle
+    )
 
     const headerElement = React.createElement(
       'h1',
       {id: 'header'},
       'Nick'
+    )
+
+    const wrapperElement = React.createElement(
+      'div',
+      { id: 'container'},
+      nameElement,
+      handleElement
+    )
+
+    console.log('wrapperElement', wrapperElement)
+
+    ReactDOM.render(
+      wrapperElement,
+      document.getElementById('app')
     )
 
     
