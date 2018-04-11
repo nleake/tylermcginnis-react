@@ -28,13 +28,30 @@
     function FriendsList (props) {
       return (
         <ul>
-          {props.list.map((name) => (
-            <li key={name}>
-              <span>{name}</span>
-              <button onClick={() => props.onRemoveFriend(name)}>Remove</button>
+          {props.list.map((friend) => (
+            <li key={friend.name}>
+              <span>{friend.name}</span>
+              <button onClick={() => props.onRemoveFriend(friend.name)}>Remove</button>
+              <button onClick={() => props.onToggleFriend(friend.name)}>Deactivate</button>
             </li>
           ))}
         </ul>
+      )
+    }
+
+    function InactiveFriends (props) {
+      return (
+        <div>
+          <h2>Inactive Friends</h2>
+          <ul>
+            {props.list.map((friend) => (
+              <li key={friend.name}>
+                <span>{friend.name}</span>
+                <button onClick={() => props.onToggleFriend(friend.name)}>Activate</button>
+              </li>
+            ))}
+          </ul>
+        </div>
       )
     }
 
@@ -43,13 +60,27 @@
         super(props)
 
         this.state = {
-          friends: ['Jacoby', 'Alex', 'David'],
+          friends: [
+            {
+              name: 'Jacoby',
+              active: true,
+            },
+            {
+              name: 'Alex',
+              active: true,
+            },
+            {
+              name: 'David',
+              active: false
+            }
+          ],
           input: '',
         }
 
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this)
         this.updateInput = this.updateInput.bind(this)
         this.handleAddFriend = this.handleAddFriend.bind(this)
+        this.handleToggleFriend = this.handleToggleFriend.bind(this)
       }
 
       handleAddFriend() {
@@ -65,6 +96,19 @@
         this.setState((currentState) =>{
           return {
             friends: currentState.friends.filter((friend) => friend !== name)
+          }
+        })
+      }
+
+      handleToggleFriend(name) {
+        this.setState((currentState) => {
+          const friend = currentState.friends.find((friend) => friend.name === name)
+          return {
+            friends: currentState.friends.filter((friend) => friend.name !== name)
+              .concat([{
+                name,
+                active: !friend.active
+              }])
           }
         })
       }
@@ -93,8 +137,13 @@
             </button>
             <h3>Friends</h3>
             <FriendsList 
-              list={this.state.friends}
-              onRemoveFriend={this.handleRemoveFriend} 
+              list={this.state.friends.filter((friend) => friend.active === true)}
+              onRemoveFriend={this.handleRemoveFriend}
+              onToggleFriend={this.handleToggleFriend} 
+            />
+            <InactiveFriends
+              list={this.state.friends.filter((friend) => friend.active === false)}
+              onToggleFriend={this.handleToggleFriend}
             />
           </div>
         )
