@@ -83,23 +83,25 @@
         this.handleToggleFriend = this.handleToggleFriend.bind(this)
       }
 
-      handleAddFriend() {
+     handleAddFriend() {
         this.setState((currentState) => {
           return {
-            friends: currentState.friends.concat([this.state.input]),
+            friends: currentState.friends.concat([{
+              name: this.state.input,
+              active: true
+            }]),
             input: ''
           }
         })
       }
 
       handleRemoveFriend(name) {
-        this.setState((currentState) =>{
+        this.setState((currentState) => {
           return {
-            friends: currentState.friends.filter((friend) => friend !== name)
+            friends: currentState.friends.filter((friend) => friend.name !== name)
           }
         })
       }
-
       handleToggleFriend(name) {
         this.setState((currentState) => {
           const friend = currentState.friends.find((friend) => friend.name === name)
@@ -112,10 +114,8 @@
           }
         })
       }
-
       updateInput(e) {
         const value = e.target.value
-
         this.setState({
           input: value
         })
@@ -135,6 +135,11 @@
             <button onClick={this.handleAddFriend}>
               Submit
             </button>
+            <div>
+              <button onClick={() => this.setState({
+                friends: []
+              })}>Clear All</button>
+            </div>
             <h3>Friends</h3>
             <FriendsList 
               list={this.state.friends.filter((friend) => friend.active === true)}
