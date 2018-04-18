@@ -71,7 +71,7 @@
             },
             {
               name: 'David',
-              active: false
+              active: false,
             }
           ],
           input: '',
@@ -88,7 +88,7 @@
           return {
             friends: currentState.friends.concat([{
               name: this.state.input,
-              active: true
+              active: true,
             }]),
             input: ''
           }
@@ -97,11 +97,12 @@
 
       handleRemoveFriend(name) {
         this.setState((currentState) => {
-          return {
+          return {  
             friends: currentState.friends.filter((friend) => friend.name !== name)
           }
         })
       }
+      
       handleToggleFriend(name) {
         this.setState((currentState) => {
           const friend = currentState.friends.find((friend) => friend.name === name)
